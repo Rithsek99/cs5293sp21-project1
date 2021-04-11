@@ -95,9 +95,9 @@ def redactConcept(doc,concept):
                   sent[i] = "(REDACTED)"
                   num += 1
       return ' '.join(sent),num
-def main():
+def main(input_f,concept):
     #print(redactName(doc))
-    dire = glob.glob("inputFile/*.txt")
+    dire = glob.glob(input_f)
     #print(dire)
     for f in dire:
         temp_f = open(f,"r")
@@ -113,7 +113,7 @@ def main():
         #redact Prounoun
         temp,pro_redact = redactPronoun(temp)
         #redact concept
-        temp,conc_redact = redactConcept(temp,"crime")
+        temp,conc_redact = redactConcept(temp,concept)
         name = f.split(".")
         result = open(name[0]+".redacted","w")
         result.write(temp)
@@ -133,10 +133,15 @@ def main():
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
-    parser.add_argument("--input", type=str, required=True,"--names", type = str, required = False )# "--dates")            #  "--phones", "--genders","--concept", type=str, required=True,
-          #  "--output",type=str, required= True,
-         #   "--state",type=stderr)
+    parser.add_argument("--input", type=str, required=True,help="get in input")
+    parser.add_argument("--names", required = False,help="get name flage")
+    parser.add_argument("--genders", required = False, help="get gender flag")
+    parser.add_argument("--dates", required = False, help="get date flag")
+    parser.add_argument("--phone",required=False, help="get phone flag")
+    parser.add_argument("--concept", type=str, required=True, help="get concept")
+    parser.add_argument("--output",type=str, required = True, help="get output")
+    parser.add_argument("--stats")
     args = parser.parse_args()
     print(args.input)
-    #main()
+    main(args.input,args.concept)
 

@@ -117,16 +117,26 @@ def main():
         name = f.split(".")
         result = open(name[0]+".redacted","w")
         result.write(temp)
+        result.write("type "+  "---" + " num of redact\n")
+        result.write("Name" + " --- " + str(name_redact)+"\n")
+        result.write("Phone" + " --- "+ str(phone_redact)+"\n")
+        result.write("Date" + " --- "+ str(date_redact)+"\n")
+        result.write("Gender" + " --- "+ str(gender_redact+pro_redact)+"\n")
+        result.write("Concept"+" --- "+ str(conc_redact)+"\n")
         print(name[0] + "  type "+"---"+ " num of redact")
         print("Name" + " --- " + str(name_redact))
         print("Phone" + " --- "+ str(phone_redact))
         print("Date" + " --- "+ str(date_redact))
-        print("Geder" + " --- "+ str(gender_redact+pro_redact))
+        print("Gender" + " --- "+ str(gender_redact+pro_redact))
         print("Concept"+" --- "+ str(conc_redact))
 
+
 if __name__ == '__main__':
-    #parser = argparse.ArgumentParser()
-   # parser.add_argument("--input", type=str, required=True, 
-    #                                                 help="Incident summary url.")
-    main()
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--input", type=str, required=True,"--names", type = str, required = False )# "--dates")            #  "--phones", "--genders","--concept", type=str, required=True,
+          #  "--output",type=str, required= True,
+         #   "--state",type=stderr)
+    args = parser.parse_args()
+    print(args.input)
+    #main()
 

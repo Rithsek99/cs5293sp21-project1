@@ -1,7 +1,10 @@
 import spacy
 import glob
 import nltk
+import argparse
 from spacy.matcher import Matcher
+from PyDictionary import PyDictionary
+dic=PyDictionary()
 nlp = spacy.load('en_core_web_sm')
 nlp.pipe_names
 ner = nlp.get_pipe('ner')
@@ -10,63 +13,61 @@ ner = nlp.get_pipe('ner')
 def redactName(doc):
     nlp_doc = nlp(doc)
     re = []
+    num = 0
     #print(nlp_doc)                
     for ent in nlp_doc:
         if ent.ent_type_ == "PERSON":
             re.append("(REDACTED)")
+            num +=1
         else:
             re.append(ent.text)
-    return ' '.join(re)
+    return ' '.join(re), num
 
 #redact date method
 def redactDate(doc):
     nlp_doc = nlp(doc)
     re = []
+    num = 0
     #print(nlp_doc)
     for ent in nlp_doc:
         if ent.ent_type_ == "DATE":
             re.append("(REDACTED)")
+            num +=1
         else:
             re.append(ent.text)
-    return ' '.join(re)
+    return ' '.join(re),num
 #redact Prounoun
 def redactPronoun(doc):
     nlp_doc = nlp(doc)
     re = []
+    num = 0
     pro =["he","she","him","her","himself","herself","his","hers"]
     #print(nlp_doc)
     for ent in nlp_doc:
         if ent.text.lower() in pro:
             re.append("(REDACTED)")
+            num +=1
         else:
             re.append(ent.text)
-    return ' '.join(re)
-#redact NNP
-def redactNNP (doc):
-    nlp_doc = nlp(doc)
-    re = []
-   # print(nlp_doc)
-    for ent in nlp_doc:
-        if ent.ent_type_ =="NNP":
-            re.append("(REDACTED)")
-        else:
-            re.append(ent.text)
-    return ' '.join(re)
+    return ' '.join(re), num
 #redact Gener
 def redactGender(doc):
     nlp_doc = nlp(doc)
     re = []
+    num = 0
     gender = ["male","female","mother", "father","brother", "sister", "grandmother", "grandfather","uncle", "aunt","gentleman", "lady","king","queen","monk","nun","husband","wife","sir","madam","newphew","niece","actor","actress","son","daughter"]
     temp = doc.split()
     for item in temp:
         if item.lower() in gender:
             doc = doc.replace(item, "(REDACTED)")
-    return doc
+            num +=1
+    return doc, num
 #redact phone number
 
 def redactPhone(doc):
     nlp_doc = nlp(doc)
     re = []
+    num_redact = 0
     matcher = Matcher(nlp.vocab)
     pattern = [{"ORTH": "("}, {"SHAPE": "ddd"}, {"ORTH": ")"}, {"SHAPE": "ddd"},
                        {"ORTH": "-", "OP": "?"}, {"SHAPE": "dddd"}]
@@ -75,13 +76,25 @@ def redactPhone(doc):
     matches = matcher(nlp_doc)
     for match_id, start, end in matches:
             span = nlp_doc[start:end]
-
             re.append(span.text) 
     temp = doc
     for item in re:
         if item in temp:
             temp = temp.replace(item, "(REDACTED)")
-    return temp
+            num_redact += 1 
+    return temp, num_redact
+#redact concept
+def redactConcept(doc,concept):
+      nlp_doc = nlp(doc)
+      num = 0
+      sent = doc.split(".") # split doc into list of sentense
+      word = dic.synonym(concept) # get the list of synonym of concpet
+      for i in range(len(sent)):
+          for w in word:
+              if w in sent[i]:
+                  sent[i] = "(REDACTED)"
+                  num += 1
+      return ' '.join(sent),num
 def main():
     #print(redactName(doc))
     dire = glob.glob("inputFile/*.txt")
@@ -89,19 +102,31 @@ def main():
     for f in dire:
         temp_f = open(f,"r")
         #redact phone
-        temp = redactPhone(temp_f.read())
+        temp,phone_redact = redactPhone(temp_f.read())
+        #print("this file"+ f.split(".")[0]+"has "+str(phone_redact)+" redacted")
         # redact date
-        temp = redactDate(temp)
+        temp,date_redact = redactDate(temp)
         # redact name
-        temp = redactName(temp)
+        temp,name_redact = redactName(temp)
         #redact gender
-        temp = redactGender(temp)
+        temp,gender_redact = redactGender(temp)
         #redact Prounoun
-        temp = redactPronoun(temp)
+        temp,pro_redact = redactPronoun(temp)
+        #redact concept
+        temp,conc_redact = redactConcept(temp,"crime")
         name = f.split(".")
         result = open(name[0]+".redacted","w")
         result.write(temp)
+        print(name[0] + "  type "+"---"+ " num of redact")
+        print("Name" + " --- " + str(name_redact))
+        print("Phone" + " --- "+ str(phone_redact))
+        print("Date" + " --- "+ str(date_redact))
+        print("Geder" + " --- "+ str(gender_redact+pro_redact))
+        print("Concept"+" --- "+ str(conc_redact))
 
 if __name__ == '__main__':
+    #parser = argparse.ArgumentParser()
+   # parser.add_argument("--input", type=str, required=True, 
+    #                                                 help="Incident summary url.")
     main()
 

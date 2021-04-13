@@ -19,4 +19,13 @@ pipenv run pytest or pipenv run python -m pyest
 
 ## Assumption
 Assumption I made while writing code
-- 
+
+* use spacy, nlp and nltk to define type of PERSON, DATE to look for name and date in document, 
+* since spacy doesnt have fuction to recognize gender, I create list that contain word which identify gender and use to redact gender in document.
+* I use re/matcher to create partern to look for phone number. 
+* There is many different way to define the concept. I chose the synonym of word of the concept and iterate every word of synonym(concept) in the document and redact the sentence that contain that word. 
+## Bug occure while writing code and expect to occure when executing
+* spacy funtion to detect Date is not working properly. It detects some Data format but not the whole Date format. 
+* since I only use one word as the concept, my program will not be able to detect if a phrase of concept is given. 
+* argparse: I could not make it run as project example of execution, but How to run program above work just fine. 
+## Test 

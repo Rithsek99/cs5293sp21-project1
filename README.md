@@ -31,10 +31,10 @@ Assumption I made while writing code
 ## Stats
 Every file the program read in, It calculate the type of redaction and number of redaction and write it back to the end of output file. Stats also print out to stdout in the format below.  Each output file will have stats at the end in format: 
 Types -- num of redact.
-Names --- ? .
-Genders --- ?.
-Dates --- ?.
-Phone --- ?.
-Concept --- ?.
+1. Names --- ? 
+2. Genders --- ?
+3. Dates --- ?
+4. Phone --- ?
+5. Concept --- ?
 
 ## Test 

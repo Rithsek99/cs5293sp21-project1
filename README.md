@@ -39,4 +39,9 @@ Every file the program read in, It calculate the type of redaction and number of
 5. Concept --- ?
 
 ## Test 
+* test_names.py: this file test if name is redacted correctly. 
+* test_date.py: this file test if date is redacted correctly.
+* test_phone.py: this file test if phone number is redacted correctly.
+* test_gender.py: this file test if gender is redacted correctly.
+* test_concept.py: this file test if concept is redacted correctly.
 

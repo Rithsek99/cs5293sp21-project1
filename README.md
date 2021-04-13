@@ -14,7 +14,8 @@ pipenv run pytest or pipenv run python -m pyest
 * redactPronoun(doc): this function redact pronound that identify gender, for example, he, she, and return doc with pronound being redacted
 * redactGender(doc): this function redact gender in doc, (I defind gender list that contain words identify gender, i.e. king, monk, mother..), this function return doc with gender being redacted. 
 * redactPhone(doc): this function redact phone number. In order to find phone number, I use matcher to find partern of phone number. The function return doc with phone number being redacted.
-* redactConcept(doc, concept): this fuction take doc and concept as argument. ### I define concept by using synonym library to find the words that has the same meaning of concept and redact the sentence that contain this word. 
+* redactConcept(doc, concept): this fuction take doc and concept as argument. 
+### I define concept by using synonym library to find the words that has the same meaning of concept and redact the sentence that contain this word. 
 * main(inputfile, concept): this main fuction take inputfile directory and concept as argument, it calls the rest of functions to exectute the program. 
 
 ## Assumption

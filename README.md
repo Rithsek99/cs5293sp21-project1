@@ -29,11 +29,12 @@ Assumption I made while writing code
 * since I only use one word as the concept, my program will not be able to detect if a phrase of concept is given. 
 * argparse: I could not make it run as project example of execution, but How to run program above work just fine. 
 ## Stats
-Every file the program read in, It calculate the type of redaction and number of redaction and write it back to the end of output file. Each output file will have stats at the end in format: 
-Types -- num of redact
-Names --- ? 
-Genders --- ?
-Dates --- ?
-Phone --- ?
-Concept --- ?
+Every file the program read in, It calculate the type of redaction and number of redaction and write it back to the end of output file. Stats also print out to stdout in the format below.  Each output file will have stats at the end in format: 
+Types -- num of redact.
+Names --- ? .
+Genders --- ?.
+Dates --- ?.
+Phone --- ?.
+Concept --- ?.
+
 ## Test 

@@ -28,4 +28,12 @@ Assumption I made while writing code
 * spacy funtion to detect Date is not working properly. It detects some Data format but not the whole Date format. 
 * since I only use one word as the concept, my program will not be able to detect if a phrase of concept is given. 
 * argparse: I could not make it run as project example of execution, but How to run program above work just fine. 
+## Stats
+Every file the program read in, It calculate the type of redaction and number of redaction and write it back to the end of output file. Each output file will have stats at the end in format: 
+Types -- num of redact
+Names --- ? 
+Genders --- ?
+Dates --- ?
+Phone --- ?
+Concept --- ?
 ## Test 
